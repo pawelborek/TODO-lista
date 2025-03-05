@@ -73,13 +73,16 @@ $wynik = mysqli_query($pol, "SELECT * FROM zadania;");
                     <form method="POST" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $wiersz['id'] ?>">
                         <input type="hidden" name="czyZrobione" value="<?= $wiersz['czyZrobione'] ?>">
-                        <button type="submit" name="zmien" class="toggle-btn">
-                            <?= $wiersz['czyZrobione'] ? 'Cofnij' : 'Zrobione' ?>
-                        </button>
-                        <button type="button" class="toggle-btn" onclick="edytujZadanie(<?= $wiersz['id'] ?>, '<?= htmlspecialchars($wiersz['zadanie']) ?>')">
-                            Edytuj
-                        </button>
-                        <button type="submit" name="usun" class="delete-btn">Usuń</button>
+
+                        <div class="button-container">
+                            <button type="submit" name="zmien" class="toggle-btn">
+                                <?= $wiersz['czyZrobione'] ? 'Cofnij' : 'Zrobione' ?>
+                            </button>
+                            <button type="button" class="toggle-btn" onclick="edytujZadanie(<?= $wiersz['id'] ?>, '<?= htmlspecialchars($wiersz['zadanie']) ?>')">
+                                Edytuj
+                            </button>
+                            <button type="submit" name="usun" class="delete-btn">Usuń</button>
+                        </div>
                     </form>
 
                     <form method="POST" class="comment-form">
