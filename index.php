@@ -9,34 +9,27 @@ if (!$pol) {
     die("Błąd połączenia: " . mysqli_connect_error());
 }
 
-// Dodawanie zadania
 if (isset($_POST['dodaj'])) {
     $zadanie = $_POST['zadanie'];
     $zap1 = mysqli_query($pol, "INSERT INTO zadania (zadanie, czyZrobione) VALUES ('$zadanie', 0);");
 }
 
-// Usuwanie zadania
 elseif (isset($_POST['usun'])) {
     $id = $_POST['id'];
     $zap2 = mysqli_query($pol, "DELETE FROM zadania WHERE id=$id;");
 }
 
-// Zmiana statusu zadania (czy zrobione?)
 elseif (isset($_POST['zmien'])) {
     $id = $_POST['id'];
     $czyZrobione = $_POST['czyZrobione'] ? 0 : 1;
 
-    // Ustawienie daty zakończenia na NULL, jeśli zadanie jest cofnięte
     if ($czyZrobione == 0) {
-        $data_zakonczenia = 'NULL';  // Ustawienie na NULL
+        $data_zakonczenia = 'NULL';
     } else {
-        $data_zakonczenia = "NOW()";  // Ustawienie aktualnej daty
+        $data_zakonczenia = "NOW()";
     }
 
     $query = "UPDATE zadania SET czyZrobione=$czyZrobione, data_zakonczenia=$data_zakonczenia WHERE id=$id";
-
-    // Debugowanie zapytania SQL
-    echo "Zapytanie SQL: " . $query; // Debugowanie zapytania
     $zap3 = mysqli_query($pol, $query);
 
     if (!$zap3) {
@@ -44,14 +37,12 @@ elseif (isset($_POST['zmien'])) {
     }
 }
 
-// Edytowanie zadania
 elseif (isset($_POST['edycja'])) {
     $id = $_POST['id'];
-    $zadanie = $_POST['zadanie']; // Zaktualizowana nazwa zadania
+    $zadanie = $_POST['zadanie'];
     $zap4 = mysqli_query($pol, "UPDATE zadania SET zadanie='$zadanie' WHERE id=$id;");
 }
 
-// Dodawanie komentarza
 if (isset($_POST['dodaj_komentarz'])) {
     $id_zadania = $_POST['id_zadania'];
     $komentarz = $_POST['komentarz'];
@@ -85,14 +76,12 @@ $wynik = mysqli_query($pol, "SELECT * FROM zadania;");
                         <button type="submit" name="zmien" class="toggle-btn">
                             <?= $wiersz['czyZrobione'] ? 'Cofnij' : 'Zrobione' ?>
                         </button>
-                        <!-- Form for editing task -->
                         <button type="button" class="toggle-btn" onclick="edytujZadanie(<?= $wiersz['id'] ?>, '<?= htmlspecialchars($wiersz['zadanie']) ?>')">
                             Edytuj
                         </button>
                         <button type="submit" name="usun" class="delete-btn">Usuń</button>
                     </form>
 
-                    <!-- Komentarze -->
                     <form method="POST" class="comment-form">
                         <input type="hidden" name="id_zadania" value="<?= $wiersz['id'] ?>">
                         <textarea name="komentarz" placeholder="Dodaj komentarz" required></textarea>
@@ -110,7 +99,6 @@ $wynik = mysqli_query($pol, "SELECT * FROM zadania;");
         </ul>
     </div>
 
-    <!-- Modal Edit Task -->
     <div id="editObszar" style="display:none;">
         <div class="modal-content">
             <h3>Edytuj zadanie</h3>

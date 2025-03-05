@@ -5,3 +5,10 @@ CREATE TABLE IF NOT EXISTS zadania (
     zadanie VARCHAR(255) NOT NULL,
     czyZrobione TINYINT(1) NOT NULL DEFAULT 0
 );
+CREATE TABLE IF NOT EXISTS komentarze (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    zadanie_id INT,
+    komentarz TEXT NOT NULL,
+    data_utworzenia DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (zadanie_id) REFERENCES zadania(id) ON DELETE CASCADE
+);
